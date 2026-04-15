@@ -1,8 +1,5 @@
 import pytest
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as ec
-from selenium.webdriver.support.wait import WebDriverWait
 #парсинг командной строки
 def pytest_addoption(parser):
     # парсинг browser_name
@@ -34,18 +31,11 @@ def browser(request):
     browser.quit()
 
 #передача урла
-@pytest.fixture
+@pytest.fixture()
 def base_url(request):
     language = request.config.getoption("--language")
     return (f"http://selenium1py.pythonanywhere.com/"
-            f"{language}/catalogue/coders-at-work_207/")
+            f"{language}/")
 
-#WebDriverWait на проверку кликабельности на сайте
-@pytest.fixture
-def clickable_button_in_5(browser):
-    def _clickable_button_in_5(css_selector_button):
-        return WebDriverWait(browser, 5).\
-                    until(ec.element_to_be_clickable((By.CSS_SELECTOR, css_selector_button))
-                          )
-    return _clickable_button_in_5
+
 
