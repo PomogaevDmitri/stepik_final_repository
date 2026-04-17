@@ -16,3 +16,9 @@ class BasePage():
         except NoSuchElementException:
             return False
         return True
+    def is_url_contains_str(self, str):
+        try:
+            str in self.browser.url
+        except NoSuchElementException:
+            return False
+        return True
