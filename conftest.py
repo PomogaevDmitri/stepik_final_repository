@@ -10,7 +10,7 @@ def pytest_addoption(parser):
     # парсинг language
     parser.addoption('--language',
                      action='store',
-                     default='en',
+                     default='ru',
                      help="Choose language: es, ru)")
 
 #Инициализация браузера
@@ -30,12 +30,11 @@ def browser(request):
     print("\nquit browser..")
     browser.quit()
 
-#передача урла
+#передача базовго url
 @pytest.fixture()
 def base_url(request):
     language = request.config.getoption("--language")
     return (f"http://selenium1py.pythonanywhere.com/"
             f"{language}/")
-
 
 

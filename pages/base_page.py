@@ -1,4 +1,6 @@
+
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.expected_conditions import none_of
 
 
 class BasePage():
@@ -16,9 +18,10 @@ class BasePage():
         except NoSuchElementException:
             return False
         return True
-    def is_url_contains_str(self, str):
+
+    def is_url_contains_str(self, str_in_url):
         try:
-            str in self.browser.url
+            str_in_url in self.browser.current_url
         except NoSuchElementException:
             return False
         return True
