@@ -12,4 +12,5 @@ def test_guest_can_add_product_to_basket(browser,base_url):
     page.add_item_to_cart()
     page.solve_quiz_and_get_code()
     page.cart_value_after_adding_an_item()
+    page.matching_product_name_and_message()
     #time.sleep(900)

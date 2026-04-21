@@ -22,8 +22,19 @@ class ProductPage(BasePage):
             print("No second alert presented")
 
     def cart_value_after_adding_an_item(self):
+        self.is_element_present(*CataloguePageLocators.PRICE_PRODUCT)
         price_product = self.browser.find_element(*CataloguePageLocators.PRICE_PRODUCT).text
+        self.is_element_present(*CataloguePageLocators.PRICE_BASKET)
         price_basket = self.browser.find_element(*CataloguePageLocators.PRICE_BASKET).get_attribute("textContent")
-        price_product = ''.join(price_product.split())
-        price_basket = ''.join(price_basket.split())
-        assert price_product in price_basket
+        price_product = self.removing_spaces(price_product)
+        price_basket= self.removing_spaces(price_basket)
+        assert price_product in price_basket , "The cost of the product and the basket are not equa"
+
+    def matching_product_name_and_message(self):
+        assert self.is_element_present(*CataloguePageLocators.NAME_PRODUCT),\
+            "Name product is not presented"
+        name_product = self.browser.find_element(*CataloguePageLocators.NAME_PRODUCT).text
+        assert self.is_element_present(*CataloguePageLocators.NAME_PRODUCT_IN_MESSAGE),\
+            "Name product in message is not presented"
+        name_product_in_message = self.browser.find_element(*CataloguePageLocators.NAME_PRODUCT_IN_MESSAGE).text
+        assert name_product in name_product_in_message, "The product name is not specified in the message."

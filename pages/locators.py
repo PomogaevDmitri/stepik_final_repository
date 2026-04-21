@@ -14,3 +14,5 @@ class CataloguePageLocators:
     PRICE_PRODUCT = (By.CSS_SELECTOR, "p.price_color")
     PRICE_BASKET = (By.CSS_SELECTOR, ".btn-cart")
     DOP_URL = f"catalogue/the-shellcoders-handbook_209/?promo=newYear"
+    NAME_PRODUCT = (By.CSS_SELECTOR, ".product_main h1")
+    NAME_PRODUCT_IN_MESSAGE = (By.XPATH, "//*[@id='messages']/div[1]/div/strong")

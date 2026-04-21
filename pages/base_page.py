@@ -25,3 +25,6 @@ class BasePage():
         except NoSuchElementException:
             return False
         return True
+
+    def removing_spaces(self, stroke):
+        return ''.join(stroke.split())
