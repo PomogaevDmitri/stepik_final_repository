@@ -1,5 +1,4 @@
 import time
-
 import pytest
 from .pages.product_page import ProductPage
 from .pages.locators import CataloguePageLocators
@@ -19,10 +18,20 @@ from .pages.locators import CataloguePageLocators
                                   "promo=offer9"])
 def test_guest_can_add_product_to_basket(browser,base_url,promo):
 
-    page = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL + promo)
+    page = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_PROMO + promo)
     page.open() #Открываем страницу в браузере
+    page.should_not_be_success_message()
     page.add_item_to_cart()
     page.solve_quiz_and_get_code()
     page.cart_value_after_adding_an_item()
     page.matching_product_name_and_message()
 
+def test_guest_should_see_login_link_on_product_page(browser,base_url):
+    page = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_THE_CITY)
+    page.open()
+    page.should_be_login_link()
+
+def test_guest_can_go_to_login_page_from_product_page (browser,base_url):
+    page = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_THE_CITY)
+    page.open()
+    page.go_to_login_page()

@@ -39,3 +39,11 @@ class ProductPage(BasePage):
             "Name product in message is not presented"
         name_product_in_message = self.browser.find_element(*CataloguePageLocators.NAME_PRODUCT_IN_MESSAGE).text
         assert name_product == name_product_in_message, "The product name is not specified in the message."
+
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*CataloguePageLocators.NAME_PRODUCT_IN_MESSAGE), \
+            "Success message is presented, but should not be"
+
+    def success_message_hidden(self):
+        assert self.is_disappeared(*CataloguePageLocators.NAME_PRODUCT_IN_MESSAGE), \
+            "The success message was not hidden"

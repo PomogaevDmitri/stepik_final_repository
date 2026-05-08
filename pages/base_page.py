@@ -1,6 +1,9 @@
-
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.support.expected_conditions import none_of
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+
+from pages.locators import BasePageLocators
 
 
 class BasePage():
@@ -12,9 +15,9 @@ class BasePage():
     def open(self):
         self.browser.get(self.url)
 
-    def is_element_present(self, how, what):
+    def is_element_present(self, type_locators, selector):
         try:
-            self.browser.find_element(how, what)
+            self.browser.find_element(type_locators, selector)
         except NoSuchElementException:
             return False
         return True
@@ -28,3 +31,28 @@ class BasePage():
 
     def removing_spaces(self, stroke):
         return ''.join(stroke.split())
+
+    def is_not_element_present(self, type_locators, selector, timeout=4):
+        try:
+            (WebDriverWait(self.browser, timeout).
+             until(EC.presence_of_element_located((type_locators, selector))))
+        except TimeoutException:
+            return True
+        return False
+
+    def is_disappeared(self, type_locators, selector, timeout=4):
+        try:
+            WebDriverWait(self.browser, timeout, 1). \
+                until_not(EC.presence_of_element_located((type_locators, selector)))
+        except TimeoutException:
+            return False
+
+        return True
+
+    def go_to_login_page(self):
+        login_link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
+        login_link.click()
+        assert self.is_element_present(*BasePageLocators.LOGIN_FORM), "Login form is not presented"
+
+    def should_be_login_link(self):
+        assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
