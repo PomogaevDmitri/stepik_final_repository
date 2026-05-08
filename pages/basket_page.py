@@ -17,6 +17,7 @@ class BasketPage(BasePage):
                                                    BASKET_TEXT_IN_TO_BASKET).text)
         text_in_basket = self.normalize_text(text_in_basket)
         assert self.TEXT_BASKET_INFO_IN_BASKET == text_in_basket, "Basket is not empty"
+
     def should_be_basket_totals(self):
         assert self.is_disappeared(*BasketPageLocators.BASKET_TOTALS), \
             "Basket is not empty"

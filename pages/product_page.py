@@ -2,7 +2,7 @@ from .base_page import BasePage
 from .locators import CataloguePageLocators
 import math
 from selenium.common.exceptions import NoAlertPresentException
-import time
+
 class ProductPage(BasePage):
     def add_item_to_cart(self):
         self.browser.find_element(*CataloguePageLocators.BUTTON_ADD_TO_CART).click()

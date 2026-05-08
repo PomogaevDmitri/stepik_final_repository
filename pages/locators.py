@@ -5,6 +5,7 @@ class BasePageLocators:
     LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
     LOGIN_FORM = (By.CSS_SELECTOR, "#login_form")
     BUTTON_TO_BASKET_IN_MAIN = (By.CSS_SELECTOR, ".btn-group a")
+
 class BasketPageLocators:
     BASKET_TEXT_IN_TO_BASKET = (By.CSS_SELECTOR, "#content_inner p")
     BASKET_TOTALS = (By.CSS_SELECTOR, "#basket_totals")
