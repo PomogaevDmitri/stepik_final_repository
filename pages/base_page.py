@@ -7,6 +7,7 @@ from pages.locators import BasePageLocators
 
 
 class BasePage():
+    URL_LOGIN_BASKET = 'basket'
     def __init__(self, browser, url, timeout=10):
         self.browser = browser
         self.url = url
@@ -29,8 +30,13 @@ class BasePage():
             return False
         return True
 
-    def removing_spaces(self, stroke):
+    @staticmethod
+    def delete_spaces_in_text(stroke):
         return ''.join(stroke.split())
+
+    @staticmethod
+    def normalize_text(text):
+        return text.strip()
 
     def is_not_element_present(self, type_locators, selector, timeout=4):
         try:
@@ -56,3 +62,8 @@ class BasePage():
 
     def should_be_login_link(self):
         assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
+
+    def go_to_basket_page(self):
+        self.browser.find_element(*BasePageLocators.BUTTON_TO_BASKET_IN_MAIN).click()
+        assert self.is_url_contains_str(self.URL_LOGIN_BASKET), \
+            "The URL does not contain the string basket"

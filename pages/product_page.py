@@ -26,8 +26,8 @@ class ProductPage(BasePage):
         price_product = self.browser.find_element(*CataloguePageLocators.PRICE_PRODUCT).text
         self.is_element_present(*CataloguePageLocators.PRICE_BASKET)
         price_basket = self.browser.find_element(*CataloguePageLocators.PRICE_BASKET).get_attribute("textContent")
-        price_product = self.removing_spaces(price_product)
-        price_basket = self.removing_spaces(price_basket)
+        price_product = self.delete_spaces_in_text(price_product)
+        price_basket = self.delete_spaces_in_text(price_basket)
 
         assert price_product == price_basket , "The cost of the product and the basket are not equa"
 

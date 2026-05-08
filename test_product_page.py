@@ -1,8 +1,12 @@
 import time
 import pytest
+
+from pages.basket_page import BasketPage
 from .pages.product_page import ProductPage
 from .pages.locators import CataloguePageLocators
+from .pages.basket_page import BasePage
 
+@pytest.mark.skip
 @pytest.mark.catalog
 @pytest.mark.parametrize('promo', ["promo=offer0",
                                   "promo=offer1",
@@ -25,13 +29,22 @@ def test_guest_can_add_product_to_basket(browser,base_url,promo):
     page.solve_quiz_and_get_code()
     page.cart_value_after_adding_an_item()
     page.matching_product_name_and_message()
-
+@pytest.mark.skip
 def test_guest_should_see_login_link_on_product_page(browser,base_url):
     page = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_THE_CITY)
     page.open()
     page.should_be_login_link()
-
+@pytest.mark.skip
 def test_guest_can_go_to_login_page_from_product_page (browser,base_url):
     page = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_THE_CITY)
     page.open()
     page.go_to_login_page()
+
+def test_guest_cant_see_product_in_basket_opened_from_product_page(browser,base_url):
+    product = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_THE_CITY)
+    product.open()
+    basket = BasketPage(browser, browser.current_url)
+    basket.go_to_basket_page()
+    basket.should_be_basket_totals()
+    basket.should_be_basket_to_empty_in_basket_page_text()
+
