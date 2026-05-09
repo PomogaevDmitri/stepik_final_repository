@@ -4,7 +4,7 @@ from pages.login_page import LoginPage
 from pages.basket_page import BasketPage
 from .pages.product_page import ProductPage
 from .pages.locators import CataloguePageLocators
-from .pages.basket_page import BasePage
+from .pages.basket_page import FormatGener
 
 @pytest.mark.skip
 @pytest.mark.catalog
@@ -53,10 +53,9 @@ class TestUserAddToBasketFromProductPage:
     @pytest.fixture(scope="function", autouse=True)
     def setup(self,browser,base_url):
         self.login_page = LoginPage(browser, base_url)
+        self.login_page.open()
         self.login_page.go_to_login_page()
-
-
-        self.link = self.product.link
+        self.login_page.register_new_user(FormatGener.random_email(),FormatGener.random_password())
 
     def test_user_cant_see_success_message(browser,base_url):
         page = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_THE_CITY)

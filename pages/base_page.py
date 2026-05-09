@@ -64,15 +64,27 @@ class BasePage:
     def should_be_authorized_user(self):
         assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
 
+    def is_element_send_keys(self, type_locators, selector, value):
+        try:
+            element = self.browser.find_element(type_locators, selector)
+            element.clear()
+            element.send_keys(value)
+            return True
+        except NoSuchElementException:
+            return False
+
 class FormatGener:
     fake = Faker()
-    #Генерация email
-    def random_email(self):
-        return self.fake.email()
 
+    @staticmethod
+    #Генерация email
+    def random_email():
+        return FormatGener.fake.email()
+
+    @staticmethod
     # Генерация пароля
-    def random_password(self):
-        return self.fake.password()
+    def random_password():
+        return FormatGener.fake.password()
 
     @staticmethod
     def delete_spaces_in_text(stroke):
