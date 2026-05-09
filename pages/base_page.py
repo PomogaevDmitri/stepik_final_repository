@@ -1,3 +1,4 @@
+from faker import Faker
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
@@ -6,7 +7,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from pages.locators import BasePageLocators
 
 
-class BasePage():
+class BasePage:
     URL_LOGIN_BASKET = 'basket'
     def __init__(self, browser, url, timeout=10):
         self.browser = browser
@@ -29,14 +30,6 @@ class BasePage():
         except NoSuchElementException:
             return False
         return True
-
-    @staticmethod
-    def delete_spaces_in_text(stroke):
-        return ''.join(stroke.split())
-
-    @staticmethod
-    def normalize_text(text):
-        return text.strip()
 
     def is_not_element_present(self, type_locators, selector, timeout=4):
         try:
@@ -67,3 +60,24 @@ class BasePage():
         self.browser.find_element(*BasePageLocators.BUTTON_TO_BASKET_IN_MAIN).click()
         assert self.is_url_contains_str(self.URL_LOGIN_BASKET), \
             "The URL does not contain the string basket"
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
+
+class FormatGener:
+    fake = Faker()
+    #Генерация email
+    def random_email(self):
+        return self.fake.email()
+
+    # Генерация пароля
+    def random_password(self):
+        return self.fake.password()
+
+    @staticmethod
+    def delete_spaces_in_text(stroke):
+            return ''.join(stroke.split())
+
+    @staticmethod
+    def normalize_text(text):
+        return text.strip()

@@ -1,6 +1,6 @@
 import time
 import pytest
-
+from pages.login_page import LoginPage
 from pages.basket_page import BasketPage
 from .pages.product_page import ProductPage
 from .pages.locators import CataloguePageLocators
@@ -47,3 +47,27 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser,base_
     basket.go_to_basket_page()
     basket.should_be_basket_totals()
     basket.should_be_basket_to_empty_in_basket_page_text()
+
+@pytest.mark.add_to_basket
+class TestUserAddToBasketFromProductPage:
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self,browser,base_url):
+        self.login_page = LoginPage(browser, base_url)
+        self.login_page.go_to_login_page()
+
+
+        self.link = self.product.link
+
+    def test_user_cant_see_success_message(browser,base_url):
+        page = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_THE_CITY)
+        page.open() #Открываем страницу в браузере
+        page.should_not_be_success_message()
+
+    def test_user_can_add_product_to_basket(browser, base_url):
+        page = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_THE_CITY)
+        page.open()  # Открываем страницу в браузере
+        page.should_not_be_success_message()
+        page.add_item_to_cart()
+        page.solve_quiz_and_get_code()
+        page.cart_value_after_adding_an_item()
+        page.matching_product_name_and_message()
