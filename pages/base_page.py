@@ -1,4 +1,3 @@
-from faker import Faker
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
@@ -14,8 +13,31 @@ class BasePage:
         self.url = url
         self.browser.implicitly_wait(timeout)
 
+    # Открытие ссылки
     def open(self):
         self.browser.get(self.url)
+
+    # Поиск элемента
+    def find_element(self, type_locators, selector):
+        return self.browser.find_element(type_locators, selector)
+
+    # Клик по элементу
+    def click_element(self, type_locators, selector):
+        self.find_element(type_locators, selector).click()
+
+    # Получение значения text из элемента
+    def text_in_element(self, type_locators, selector):
+        return self.find_element(type_locators, selector).text()
+
+    # Получение атрибута textContent из элемента
+    def get_attribute_text_in_element(self, type_locators, selector):
+        return self.browser.find_element(type_locators, selector).get_attribute("textContent")
+
+    # Очистка поля и заполнение значением
+    def is_element_send_keys(self, type_locators, selector, value):
+        element = self.browser.find_element(type_locators, selector)
+        element.clear()
+        element.send_keys(value)
 
     def is_element_present(self, type_locators, selector):
         try:
@@ -30,6 +52,7 @@ class BasePage:
         except NoSuchElementException:
             return False
         return True
+
     #элемент не появился за указанное время и не должен
     def is_not_element_present(self, type_locators, selector, timeout=4):
         try:
@@ -72,33 +95,3 @@ class BasePage:
 
     def should_be_authorized_user(self):
         assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
-
-    def is_element_send_keys(self, type_locators, selector, value):
-        try:
-            element = self.browser.find_element(type_locators, selector)
-            element.clear()
-            element.send_keys(value)
-            return True
-        except NoSuchElementException:
-            return False
-
-class FormatGener:
-    fake = Faker()
-
-    @staticmethod
-    #Генерация email
-    def random_email():
-        return FormatGener.fake.email()
-
-    @staticmethod
-    # Генерация пароля
-    def random_password():
-        return FormatGener.fake.password()
-
-    @staticmethod
-    def delete_spaces_in_text(stroke):
-            return ''.join(stroke.split())
-
-    @staticmethod
-    def normalize_text(text):
-        return text.strip()
