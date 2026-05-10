@@ -5,9 +5,11 @@ import math
 from selenium.common.exceptions import NoAlertPresentException
 
 class ProductPage(BasePage):
+    # Добавление товара в корзину
     def add_item_to_cart(self):
         self.click_element(*CataloguePageLocators.BUTTON_ADD_TO_CART)
 
+    # Расчет значения для всплывающего окна
     def solve_quiz_and_get_code(self):
         alert = self.browser.switch_to.alert
         x = alert.text.split(" ")[2]
@@ -22,6 +24,7 @@ class ProductPage(BasePage):
         except NoAlertPresentException:
             print("No second alert presented")
 
+    # Проверка стоймости корзины после добавления товара
     def cart_value_after_adding_an_item(self):
         assert self.is_element_visibility(*CataloguePageLocators.PRICE_PRODUCT),\
             f"Элемента {CataloguePageLocators.PRICE_PRODUCT} нет"
@@ -33,6 +36,7 @@ class ProductPage(BasePage):
         price_basket = Formatting.delete_spaces_in_text(price_basket)
         assert price_product == price_basket , "The cost of the product and the basket are not equa"
 
+    # Проверка сообщения после добавления товара в корзину
     def matching_product_name_and_message(self):
         assert self.is_element_visibility(*CataloguePageLocators.NAME_PRODUCT),\
             "Name product is not presented"
@@ -42,10 +46,12 @@ class ProductPage(BasePage):
         name_product_in_message = self.text_in_element(*CataloguePageLocators.NAME_PRODUCT_IN_MESSAGE)
         assert name_product == name_product_in_message, "The product name is not specified in the message."
 
+    # Проверка на отображение сообщения об успешном добавлении товара
     def should_not_be_success_message(self):
         assert self.is_not_element_present(*CataloguePageLocators.NAME_PRODUCT_IN_MESSAGE), \
             "Success message is presented, but should not be"
 
+    # Проверка на скрытие сообщения
     def success_message_hidden(self):
         assert self.is_disappeared(*CataloguePageLocators.NAME_PRODUCT_IN_MESSAGE), \
             "The success message was not hidden"

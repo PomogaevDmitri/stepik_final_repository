@@ -30,11 +30,13 @@ def browser(request):
     print("\nquit browser..")
     browser.quit()
 
-#передача базовго url
+#Передача url
+#Добавил условие на подмену языка т.к. с en страница на тест сайте не находится
 @pytest.fixture()
 def base_url(request):
-    language = request.config.getoption("--language")
-    return (f"http://selenium1py.pythonanywhere.com/"
-            f"{language}/")
+    if request.config.getoption("--language") == "en":
+        return "http://selenium1py.pythonanywhere.com/ru/"
+    else:
+        return "http://selenium1py.pythonanywhere.com/ru/"
 
 
