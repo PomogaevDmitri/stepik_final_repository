@@ -26,3 +26,7 @@ class LoginPageLocators:
     URL_LOGIN = 'login'
     BASKET_TO_EMPTY = (By.CSS_SELECTOR, ".basket-mini-item li p")
     REGISTER_EMAIL_FIELD = (By.CSS_SELECTOR, "#id_registration-email")
+    REGISTER_PASSWORD_FIELD = (By.CSS_SELECTOR, "#id_registration-password1")
+    REGISTER_COMFORM_PASSWORD_FIELD = (By.CSS_SELECTOR, "#id_registration-password2")
+    REGISTER_BUTTON = (By.CSS_SELECTOR,"button[name='registration_submit']")
+    REGISTER_SUCCESSFULLY_TEXT = (By.CSS_SELECTOR, ".alertinner")

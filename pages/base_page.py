@@ -30,7 +30,7 @@ class BasePage:
         except NoSuchElementException:
             return False
         return True
-
+    #элемент не появился за указанное время и не должен
     def is_not_element_present(self, type_locators, selector, timeout=4):
         try:
             (WebDriverWait(self.browser, timeout).
@@ -38,6 +38,15 @@ class BasePage:
         except TimeoutException:
             return True
         return False
+
+    # элемент не появился за указанное время а должен
+    def is_element_presents(self, type_locators, selector, timeout=4):
+        try:
+            (WebDriverWait(self.browser, timeout).
+            until(EC.presence_of_element_located((type_locators, selector))))
+            return True
+        except TimeoutException:
+            return False
 
     def is_disappeared(self, type_locators, selector, timeout=4):
         try:

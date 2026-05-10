@@ -29,12 +29,11 @@ def test_guest_can_add_product_to_basket(browser,base_url,promo):
     page.solve_quiz_and_get_code()
     page.cart_value_after_adding_an_item()
     page.matching_product_name_and_message()
-@pytest.mark.skip
+
 def test_guest_should_see_login_link_on_product_page(browser,base_url):
     page = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_THE_CITY)
     page.open()
     page.should_be_login_link()
-@pytest.mark.skip
 def test_guest_can_go_to_login_page_from_product_page (browser,base_url):
     page = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_THE_CITY)
     page.open()
@@ -57,16 +56,15 @@ class TestUserAddToBasketFromProductPage:
         self.login_page.go_to_login_page()
         self.login_page.register_new_user(FormatGener.random_email(),FormatGener.random_password())
 
-    def test_user_cant_see_success_message(browser,base_url):
+    def test_user_cant_see_success_message(self,browser,base_url):
         page = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_THE_CITY)
         page.open() #Открываем страницу в браузере
         page.should_not_be_success_message()
 
-    def test_user_can_add_product_to_basket(browser, base_url):
+    def test_user_can_add_product_to_basket(self,browser, base_url ):
         page = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_THE_CITY)
         page.open()  # Открываем страницу в браузере
         page.should_not_be_success_message()
         page.add_item_to_cart()
-        page.solve_quiz_and_get_code()
         page.cart_value_after_adding_an_item()
         page.matching_product_name_and_message()
