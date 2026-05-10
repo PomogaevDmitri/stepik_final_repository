@@ -2,7 +2,7 @@ import time
 
 from .base_page import BasePage
 from .locators import LoginPageLocators
-from .base_page import FormatGener
+from utils.utils import FormatGener
 
 class LoginPage(BasePage):
     TEXT_REGISTER_SUCCESSFULLY_TEXT = "Спасибо за регистрацию!"
@@ -30,13 +30,12 @@ class LoginPage(BasePage):
                                  REGISTER_PASSWORD_FIELD, password)
        self.is_element_send_keys(*LoginPageLocators.
                                  REGISTER_COMFORM_PASSWORD_FIELD, password)
-       self.browser.find_element(*LoginPageLocators.
-                                 REGISTER_BUTTON).click()
+       self.click_element(*LoginPageLocators.REGISTER_BUTTON)
        self.is_element_presents(*LoginPageLocators.
                                  REGISTER_SUCCESSFULLY_TEXT)
        text_in_page = (FormatGener.normalize_text
-                       (self.browser.find_element
-                        (*LoginPageLocators.REGISTER_SUCCESSFULLY_TEXT)
-                        .get_attribute("textContent")))
+                       (self.get_attribute_text_in_element
+                        (*LoginPageLocators.REGISTER_SUCCESSFULLY_TEXT)))
+
        assert(self.TEXT_REGISTER_SUCCESSFULLY_TEXT == text_in_page), "Registration is not successfully"
        self.should_be_authorized_user()

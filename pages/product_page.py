@@ -1,12 +1,12 @@
 from .base_page import BasePage
-from .basket_page import FormatGener
+from utils.utils import FormatGener
 from .locators import CataloguePageLocators
 import math
 from selenium.common.exceptions import NoAlertPresentException
 
 class ProductPage(BasePage):
     def add_item_to_cart(self):
-        self.browser.find_element(*CataloguePageLocators.BUTTON_ADD_TO_CART).click()
+        self.click_element(*CataloguePageLocators.BUTTON_ADD_TO_CART)
 
     def solve_quiz_and_get_code(self):
         alert = self.browser.switch_to.alert
@@ -24,9 +24,9 @@ class ProductPage(BasePage):
 
     def cart_value_after_adding_an_item(self):
         self.is_element_present(*CataloguePageLocators.PRICE_PRODUCT)
-        price_product = self.browser.find_element(*CataloguePageLocators.PRICE_PRODUCT).text
+        price_product = self.text_in_element(*CataloguePageLocators.PRICE_PRODUCT)
         self.is_element_present(*CataloguePageLocators.PRICE_BASKET)
-        price_basket = self.browser.find_element(*CataloguePageLocators.PRICE_BASKET).get_attribute("textContent")
+        price_basket = self.get_attribute_text_in_element(*CataloguePageLocators.PRICE_BASKET)
         price_product = FormatGener.delete_spaces_in_text(price_product)
         price_basket = FormatGener.delete_spaces_in_text(price_basket)
 
@@ -35,10 +35,10 @@ class ProductPage(BasePage):
     def matching_product_name_and_message(self):
         assert self.is_element_present(*CataloguePageLocators.NAME_PRODUCT),\
             "Name product is not presented"
-        name_product = self.browser.find_element(*CataloguePageLocators.NAME_PRODUCT).text
+        name_product = self.text_in_element(*CataloguePageLocators.NAME_PRODUCT)
         assert self.is_element_present(*CataloguePageLocators.NAME_PRODUCT_IN_MESSAGE),\
             "Name product in message is not presented"
-        name_product_in_message = self.browser.find_element(*CataloguePageLocators.NAME_PRODUCT_IN_MESSAGE).text
+        name_product_in_message = self.text_in_element(*CataloguePageLocators.NAME_PRODUCT_IN_MESSAGE)
         assert name_product == name_product_in_message, "The product name is not specified in the message."
 
     def should_not_be_success_message(self):
