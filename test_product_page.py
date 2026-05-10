@@ -6,7 +6,6 @@ from .pages.product_page import ProductPage
 from .pages.locators import CataloguePageLocators
 from .pages.basket_page import FormatGener
 
-@pytest.mark.skip
 @pytest.mark.catalog
 @pytest.mark.parametrize('promo', ["promo=offer0",
                                   "promo=offer1",
