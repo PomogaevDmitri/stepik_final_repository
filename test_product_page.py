@@ -16,11 +16,10 @@ from config.urls import Urls
                                   "promo=offer6",
                                    pytest.param("promo=offer7",
                                                 marks=pytest.mark.xfail
-                                                (reason="Бага найденная")),
+                                                (reason="Здесь бага")),
                                   "promo=offer8",
                                   "promo=offer9"])
 def test_guest_can_add_product_to_basket(browser,base_url,promo):
-
     page = ProductPage(browser, base_url + Urls.DOP_URL_PROMO + promo)
     page.open() #Открываем страницу в браузере
     page.should_not_be_success_message()
@@ -30,7 +29,7 @@ def test_guest_can_add_product_to_basket(browser,base_url,promo):
     page.matching_product_name_and_message()
 
 def test_guest_should_see_login_link_on_product_page(browser,base_url):
-    page = ProductPage(browser, base_url + Urls.DOP_URL_THE_CITY)
+    page = LoginPage(browser, base_url + Urls.DOP_URL_THE_CITY)
     page.open()
     page.should_be_login_link()
 

@@ -1,3 +1,4 @@
+from config.urls import Urls
 from .base_page import BasePage
 from .locators import LoginPageLocators
 from .locators import BasketPageLocators
@@ -18,3 +19,8 @@ class BasketPage(BasePage):
     def should_be_basket_totals(self):
         assert self.is_disappeared(*BasketPageLocators.BASKET_TOTALS), \
             "Basket is not empty"
+
+    def go_to_basket_page(self):
+        self.click_element(*BasketPageLocators.BUTTON_TO_BASKET_IN_MAIN)
+        assert self.is_url_contains_str(Urls.URL_LOGIN_BASKET), \
+            "The URL does not contain the string basket"

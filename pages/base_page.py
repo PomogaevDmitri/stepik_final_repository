@@ -26,25 +26,19 @@ class BasePage:
 
     # Получение значения text из элемента
     def text_in_element(self, type_locators, selector):
-        return self.find_element(type_locators, selector).text()
+        return self.find_element(type_locators, selector).text
 
     # Получение атрибута textContent из элемента
     def get_attribute_text_in_element(self, type_locators, selector):
-        return self.browser.find_element(type_locators, selector).get_attribute("textContent")
+        return self.find_element(type_locators, selector).get_attribute("textContent")
 
     # Очистка поля и заполнение значением
     def is_element_send_keys(self, type_locators, selector, value):
-        element = self.browser.find_element(type_locators, selector)
+        element = self.find_element(type_locators, selector)
         element.clear()
         element.send_keys(value)
 
-    def is_element_present(self, type_locators, selector):
-        try:
-            self.browser.find_element(type_locators, selector)
-        except NoSuchElementException:
-            return False
-        return True
-
+    # Проверка Urls
     def is_url_contains_str(self, str_in_url):
         try:
             str_in_url in self.browser.current_url
@@ -62,36 +56,26 @@ class BasePage:
         return False
 
     # элемент не появился за указанное время а должен
-    def is_element_presents(self, type_locators, selector, timeout=4):
+    def is_element_visibility(self, type_locators, selector, timeout=4):
         try:
-            (WebDriverWait(self.browser, timeout).
-            until(EC.presence_of_element_located((type_locators, selector))))
+            WebDriverWait(self.browser, timeout).until(
+            EC.visibility_of_element_located((type_locators, selector)))
             return True
         except TimeoutException:
             return False
 
-    # элемент не появился
+    # элемент должен пропасть,иначе ошибка
     def is_disappeared(self, type_locators, selector, timeout=4):
         try:
             WebDriverWait(self.browser, timeout, 1). \
                 until_not(EC.presence_of_element_located((type_locators, selector)))
         except TimeoutException:
             return False
-
         return True
 
+    # Переход на страницу логина, в идеале перенести в login_page
     def go_to_login_page(self):
-        login_link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
+        login_link = self.find_element(*BasePageLocators.LOGIN_LINK)
         login_link.click()
-        assert self.is_element_present(*BasePageLocators.LOGIN_FORM), "Login form is not presented"
+        assert self.is_element_visibility(*BasePageLocators.LOGIN_FORM), "Login form is not presented"
 
-    def should_be_login_link(self):
-        assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
-
-    def go_to_basket_page(self):
-        self.browser.find_element(*BasePageLocators.BUTTON_TO_BASKET_IN_MAIN).click()
-        assert self.is_url_contains_str(Urls.URL_LOGIN_BASKET), \
-            "The URL does not contain the string basket"
-
-    def should_be_authorized_user(self):
-        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented,"

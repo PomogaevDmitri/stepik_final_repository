@@ -23,20 +23,21 @@ class ProductPage(BasePage):
             print("No second alert presented")
 
     def cart_value_after_adding_an_item(self):
-        self.is_element_presents(*CataloguePageLocators.PRICE_PRODUCT)
+        assert self.is_element_visibility(*CataloguePageLocators.PRICE_PRODUCT),\
+            f"Элемента {CataloguePageLocators.PRICE_PRODUCT} нет"
         price_product = self.text_in_element(*CataloguePageLocators.PRICE_PRODUCT)
-        self.is_element_presents(*CataloguePageLocators.PRICE_BASKET)
+        assert self.is_element_visibility(*CataloguePageLocators.PRICE_BASKET),\
+            f"Элемента {CataloguePageLocators.PRICE_BASKET} нет"
         price_basket = self.get_attribute_text_in_element(*CataloguePageLocators.PRICE_BASKET)
         price_product = Formatting.delete_spaces_in_text(price_product)
         price_basket = Formatting.delete_spaces_in_text(price_basket)
-
         assert price_product == price_basket , "The cost of the product and the basket are not equa"
 
     def matching_product_name_and_message(self):
-        assert self.is_element_presents(*CataloguePageLocators.NAME_PRODUCT),\
+        assert self.is_element_visibility(*CataloguePageLocators.NAME_PRODUCT),\
             "Name product is not presented"
         name_product = self.text_in_element(*CataloguePageLocators.NAME_PRODUCT)
-        assert self.is_element_presents(*CataloguePageLocators.NAME_PRODUCT_IN_MESSAGE),\
+        assert self.is_element_visibility(*CataloguePageLocators.NAME_PRODUCT_IN_MESSAGE),\
             "Name product in message is not presented"
         name_product_in_message = self.text_in_element(*CataloguePageLocators.NAME_PRODUCT_IN_MESSAGE)
         assert name_product == name_product_in_message, "The product name is not specified in the message."

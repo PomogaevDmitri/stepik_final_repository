@@ -16,12 +16,17 @@ class LoginPage(BasePage):
             "The URL does not contain the string login"
 
     def should_be_login_form(self):
-        assert self.is_element_present(*LoginPageLocators.LOGIN_FORM), \
+        assert self.is_element_visibility(*LoginPageLocators.LOGIN_FORM), \
             "Login form is not presented"
 
     def should_be_register_form(self):
-        assert self.is_element_present(*LoginPageLocators.REGISTER_FORM), \
+        assert self.is_element_visibility(*LoginPageLocators.REGISTER_FORM), \
             "Register form is not presented"
+    def should_be_login_link(self):
+        assert self.is_element_visibility(*LoginPageLocators.LOGIN_LINK), "Login link is not presented"
+
+    def should_be_authorized_user(self):
+        assert self.is_element_visibility(*LoginPageLocators.USER_ICON), "User icon is not presented,"
 
     def register_new_user(self, email, password):
        self.is_element_send_keys(*LoginPageLocators.REGISTER_EMAIL_FIELD,email)
@@ -30,7 +35,7 @@ class LoginPage(BasePage):
        self.is_element_send_keys(*LoginPageLocators.
                                  REGISTER_COMFORM_PASSWORD_FIELD, password)
        self.click_element(*LoginPageLocators.REGISTER_BUTTON)
-       self.is_element_presents(*LoginPageLocators.
+       self.is_element_visibility(*LoginPageLocators.
                                  REGISTER_SUCCESSFULLY_TEXT)
        text_in_page = (Formatting.normalize_text
                        (self.get_attribute_text_in_element
