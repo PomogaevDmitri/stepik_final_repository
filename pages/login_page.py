@@ -1,10 +1,10 @@
-
 from .base_page import BasePage
 from .locators import LoginPageLocators
 from utils.formatting import Formatting
+from config.text_in_page import TextPage
+from config.urls import Urls
 
 class LoginPage(BasePage):
-    TEXT_REGISTER_SUCCESSFULLY_TEXT = "Спасибо за регистрацию!"
 
     def should_be_login_page(self):
         self.should_be_login_url()
@@ -12,15 +12,15 @@ class LoginPage(BasePage):
         self.should_be_register_form()
 
     def should_be_login_url(self):
-        assert self.is_url_contains_str(LoginPageLocators.URL_LOGIN), \
+        assert self.is_url_contains_str(Urls.URL_LOGIN), \
             "The URL does not contain the string login"
 
     def should_be_login_form(self):
-        assert self.is_element_presents(*LoginPageLocators.LOGIN_FORM), \
+        assert self.is_element_present(*LoginPageLocators.LOGIN_FORM), \
             "Login form is not presented"
 
     def should_be_register_form(self):
-        assert self.is_element_presents(*LoginPageLocators.REGISTER_FORM), \
+        assert self.is_element_present(*LoginPageLocators.REGISTER_FORM), \
             "Register form is not presented"
 
     def register_new_user(self, email, password):
@@ -36,5 +36,5 @@ class LoginPage(BasePage):
                        (self.get_attribute_text_in_element
                         (*LoginPageLocators.REGISTER_SUCCESSFULLY_TEXT)))
 
-       assert(self.TEXT_REGISTER_SUCCESSFULLY_TEXT == text_in_page), "Registration is not successfully"
+       assert(TextPage.TEXT_REGISTER_SUCCESSFULLY_TEXT == text_in_page), "Registration is not successfully"
        self.should_be_authorized_user()

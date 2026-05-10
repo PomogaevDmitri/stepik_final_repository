@@ -1,22 +1,19 @@
 from .base_page import BasePage
 from .locators import LoginPageLocators
 from .locators import BasketPageLocators
-from  utils.formatting import Formatting
+from utils.formatting import Formatting
+from config.text_in_page import TextPage
 
 class BasketPage(BasePage):
-    TEXT_BASKET_INFO_IN_MAIN = "Ваша корзина пуста"
-    URL_LOGIN = 'basket'
-    TEXT_BASKET_INFO_IN_BASKET = "Ваша корзина пуста Продолжить покупки"
-
     def should_be_basket_to_empty_in_main_page(self):
-        assert (self.TEXT_BASKET_INFO_IN_MAIN ==
+        assert (TextPage.TEXT_BASKET_INFO_IN_MAIN ==
                 self.get_attribute_text_in_element(*LoginPageLocators.BASKET_TO_EMPTY)),\
             "Basket is not empty"
 
     def should_be_basket_to_empty_in_basket_page_text(self):
         text_in_basket = (self.text_in_element(*BasketPageLocators.BASKET_TEXT_IN_TO_BASKET))
         text_in_basket = Formatting.normalize_text(text_in_basket)
-        assert self.TEXT_BASKET_INFO_IN_BASKET == text_in_basket, "Basket is not empty"
+        assert TextPage.TEXT_BASKET_INFO_IN_BASKET == text_in_basket, "Basket is not empty"
 
     def should_be_basket_totals(self):
         assert self.is_disappeared(*BasketPageLocators.BASKET_TOTALS), \

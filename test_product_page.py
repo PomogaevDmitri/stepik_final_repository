@@ -2,8 +2,8 @@ import pytest
 from pages.login_page import LoginPage
 from pages.basket_page import BasketPage
 from .pages.product_page import ProductPage
-from .pages.locators import CataloguePageLocators
 from utils.generation import Generation
+from config.urls import Urls
 
 @pytest.mark.need_review
 @pytest.mark.catalog
@@ -21,7 +21,7 @@ from utils.generation import Generation
                                   "promo=offer9"])
 def test_guest_can_add_product_to_basket(browser,base_url,promo):
 
-    page = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_PROMO + promo)
+    page = ProductPage(browser, base_url + Urls.DOP_URL_PROMO + promo)
     page.open() #Открываем страницу в браузере
     page.should_not_be_success_message()
     page.add_item_to_cart()
@@ -30,19 +30,19 @@ def test_guest_can_add_product_to_basket(browser,base_url,promo):
     page.matching_product_name_and_message()
 
 def test_guest_should_see_login_link_on_product_page(browser,base_url):
-    page = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_THE_CITY)
+    page = ProductPage(browser, base_url + Urls.DOP_URL_THE_CITY)
     page.open()
     page.should_be_login_link()
 
 @pytest.mark.need_review
 def test_guest_can_go_to_login_page_from_product_page (browser,base_url):
-    page = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_THE_CITY)
+    page = ProductPage(browser, base_url + Urls.DOP_URL_THE_CITY)
     page.open()
     page.go_to_login_page()
 
 @pytest.mark.need_review
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser,base_url):
-    product = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_THE_CITY)
+    product = ProductPage(browser, base_url + Urls.DOP_URL_THE_CITY)
     product.open()
     basket = BasketPage(browser, browser.current_url)
     basket.go_to_basket_page()
@@ -59,13 +59,13 @@ class TestUserAddToBasketFromProductPage:
         self.login_page.register_new_user(Generation.random_email(),Generation.random_password())
 
     def test_user_cant_see_success_message(self, browser,base_url):
-        page = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_THE_CITY)
+        page = ProductPage(browser, base_url + Urls.DOP_URL_THE_CITY)
         page.open() #Открываем страницу в браузере
         page.should_not_be_success_message()
 
     @pytest.mark.need_review
     def test_user_can_add_product_to_basket(self, browser, base_url ):
-        page = ProductPage(browser, base_url + CataloguePageLocators.DOP_URL_THE_CITY)
+        page = ProductPage(browser, base_url + Urls.DOP_URL_THE_CITY)
         page.open()  # Открываем страницу в браузере
         page.should_not_be_success_message()
         page.add_item_to_cart()
