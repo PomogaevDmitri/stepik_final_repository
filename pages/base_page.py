@@ -1,3 +1,4 @@
+from faker import Faker
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
@@ -6,7 +7,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from pages.locators import BasePageLocators
 
 
-class BasePage():
+class BasePage:
     URL_LOGIN_BASKET = 'basket'
     def __init__(self, browser, url, timeout=10):
         self.browser = browser
@@ -29,15 +30,7 @@ class BasePage():
         except NoSuchElementException:
             return False
         return True
-
-    @staticmethod
-    def delete_spaces_in_text(stroke):
-        return ''.join(stroke.split())
-
-    @staticmethod
-    def normalize_text(text):
-        return text.strip()
-
+    #элемент не появился за указанное время и не должен
     def is_not_element_present(self, type_locators, selector, timeout=4):
         try:
             (WebDriverWait(self.browser, timeout).
@@ -45,6 +38,15 @@ class BasePage():
         except TimeoutException:
             return True
         return False
+
+    # элемент не появился за указанное время а должен
+    def is_element_presents(self, type_locators, selector, timeout=4):
+        try:
+            (WebDriverWait(self.browser, timeout).
+            until(EC.presence_of_element_located((type_locators, selector))))
+            return True
+        except TimeoutException:
+            return False
 
     def is_disappeared(self, type_locators, selector, timeout=4):
         try:
@@ -67,3 +69,36 @@ class BasePage():
         self.browser.find_element(*BasePageLocators.BUTTON_TO_BASKET_IN_MAIN).click()
         assert self.is_url_contains_str(self.URL_LOGIN_BASKET), \
             "The URL does not contain the string basket"
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
+
+    def is_element_send_keys(self, type_locators, selector, value):
+        try:
+            element = self.browser.find_element(type_locators, selector)
+            element.clear()
+            element.send_keys(value)
+            return True
+        except NoSuchElementException:
+            return False
+
+class FormatGener:
+    fake = Faker()
+
+    @staticmethod
+    #Генерация email
+    def random_email():
+        return FormatGener.fake.email()
+
+    @staticmethod
+    # Генерация пароля
+    def random_password():
+        return FormatGener.fake.password()
+
+    @staticmethod
+    def delete_spaces_in_text(stroke):
+            return ''.join(stroke.split())
+
+    @staticmethod
+    def normalize_text(text):
+        return text.strip()
